@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Generative AI with Python and LangChain: Lecture 1 Notes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Literata:wght@400;600;700&family=Figtree:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f3f6f8;--card:#fff;--ink:#14212b;--mute:#53636f;--line:#d3dde4;--a:#0b6e78;--b:#c97a0a;--c:#5a4bb5;--d:#b23a5b;--tint:#e3f1f2;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#10181e;--card:#17232b;--ink:#e6eef2;--mute:#9db0bc;--line:#2c3d48;--a:#4cc3cf;--b:#f0aa45;--c:#a79df0;--d:#f08aa5;--tint:#1a3036}}
+:root[data-theme="dark"]{--bg:#10181e;--card:#17232b;--ink:#e6eef2;--mute:#9db0bc;--line:#2c3d48;--a:#4cc3cf;--b:#f0aa45;--c:#a79df0;--d:#f08aa5;--tint:#1a3036}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.7 "Literata",Georgia,serif}
+main{max-width:760px;margin:0 auto;padding:28px 20px 64px}
+h1,h2,h3,.sans{font-family:"Figtree",system-ui,sans-serif}
+h1{font-size:2.2rem;line-height:1.15;margin:.2em 0 .3em}
+h2{font-size:1.5rem;margin:2.4em 0 .5em;padding-top:.6em;border-top:2px solid var(--a)}
+h3{font-size:1.1rem;margin:1.6em 0 .3em;color:var(--a)}
+.lead{color:var(--mute);font-size:1.05rem}
+.toc{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px 20px;font-family:"Figtree",system-ui,sans-serif;font-size:.95rem}
+.toc a{color:var(--a);text-decoration:none}.toc ol{margin:.3em 0;padding-left:1.2em}
+figure{margin:1.4em 0;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px}
+figure svg{width:100%;height:auto;display:block}
+figcaption{font:.85rem "Figtree",system-ui,sans-serif;color:var(--mute);margin-top:6px;text-align:center}
+svg text{font-family:"Figtree",system-ui,sans-serif;fill:var(--ink)}
+.box{border-left:4px solid var(--b);background:var(--card);padding:10px 16px;margin:1.2em 0;border-radius:0 8px 8px 0}
+.box.key{border-color:var(--a);background:var(--tint)}
+.scroll{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font:.92rem/1.5 "Figtree",system-ui,sans-serif;background:var(--card);min-width:520px}
+th,td{border:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}
+th{background:var(--tint)}
+li{margin:.3em 0}
+details{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:8px 14px;margin:.6em 0}
+summary{cursor:pointer;font-family:"Figtree",system-ui,sans-serif;font-weight:600}
+:focus-visible{outline:3px solid var(--b);outline-offset:2px}
+</style>
+</head>
+<body>
+<main>
+<p class="sans lead" style="margin:0">Lecture 1 of the Complete GenAI Series (Python and LangChain)</p>
+<h1>Introduction to Generative AI: Notes</h1>
+<p class="lead">A full written summary of the first lecture, expanded with extra explanation and diagrams. It covers what GenAI is, how it differs from machine learning and deep learning, the model families (LLM, LIM, LVM, LAM) and why the skill matters in 2026.</p>
+
+<nav class="toc" aria-label="Contents"><strong>Contents</strong>
+<ol>
+<li><a href="#why">Why everyone is talking about GenAI</a></li>
+<li><a href="#what">What is Generative AI?</a></li>
+<li><a href="#family">AI, ML, DL and GenAI: how they relate</a></li>
+<li><a href="#ml">Machine learning: the Netflix example</a></li>
+<li><a href="#dl">Deep learning: the face unlock example</a></li>
+<li><a href="#trad">Traditional AI vs Generative AI</a></li>
+<li><a href="#models">GenAI model families: LLM, LIM, LVM, LAM</a></li>
+<li><a href="#2026">Why learn GenAI in 2026?</a></li>
+<li><a href="#recap">Quick revision and self-check</a></li>
+</ol></nav>
+
+<h2 id="why">1. Why everyone is talking about GenAI</h2>
+<p>In the last two years a wave of GenAI products has appeared: ChatGPT, Google Gemini, Claude, ElevenLabs, Grok and many more. Three things are happening at once:</p>
+<ul>
+<li><strong>Companies are adopting AI</strong> across products, support, marketing and operations.</li>
+<li><strong>Job descriptions increasingly list AI skills</strong> as an expectation, not a bonus.</li>
+<li><strong>Students and developers build with AI</strong>: students ship projects faster, and developers integrate AI into their apps and use it to boost their own productivity.</li>
+</ul>
+<p>This lecture answers the questions beginners ask first: What is GenAI? How is it different from ML and DL? What is "traditional AI" versus "modern AI"? And why learn it now?</p>
+
+<h2 id="what">2. What is Generative AI?</h2>
+<div class="box key"><strong>Definition.</strong> Generative AI is a technology or system that creates <em>new content</em> in response to a user's query or prompt, instead of returning a stored, pre-decided answer.</div>
+<p>Two ideas matter here:</p>
+<ol>
+<li><strong>New every time.</strong> Ask the same question twice and you can get two differently worded answers. The model builds the response each time rather than looking it up.</li>
+<li><strong>Not just text.</strong> "Content" includes text, images, video, audio and programming code. That breadth is why the word <em>generative</em> is used.</li>
+</ol>
+
+<figure>
+<svg viewBox="0 0 720 210" role="img" aria-label="A prompt goes into a GenAI model, which outputs text, images, video, audio or code">
+<rect x="20" y="75" width="130" height="60" rx="10" fill="none" stroke="var(--mute)" stroke-width="2"/>
+<text x="85" y="101" text-anchor="middle" font-size="15" font-weight="600">User prompt</text>
+<text x="85" y="120" text-anchor="middle" font-size="12">"Explain GenAI"</text>
+<path d="M150 105h60" stroke="var(--a)" stroke-width="3"/><path d="M210 105l-9-6v12z" fill="var(--a)"/>
+<rect x="215" y="55" width="150" height="100" rx="12" fill="var(--tint)" stroke="var(--a)" stroke-width="2.5"/>
+<text x="290" y="100" text-anchor="middle" font-size="16" font-weight="700">GenAI model</text>
+<text x="290" y="121" text-anchor="middle" font-size="12">learned patterns</text>
+<g stroke="var(--a)" stroke-width="2"><path d="M365 90L470 25"/><path d="M365 98L470 65"/><path d="M365 105h105"/><path d="M365 112L470 145"/><path d="M365 120L470 185"/></g>
+<g font-size="14" font-weight="600">
+<rect x="470" y="8" width="130" height="32" rx="8" fill="none" stroke="var(--a)"/><text x="535" y="29" text-anchor="middle">Text</text>
+<rect x="470" y="48" width="130" height="32" rx="8" fill="none" stroke="var(--b)"/><text x="535" y="69" text-anchor="middle">Images</text>
+<rect x="470" y="89" width="130" height="32" rx="8" fill="none" stroke="var(--c)"/><text x="535" y="110" text-anchor="middle">Video</text>
+<rect x="470" y="129" width="130" height="32" rx="8" fill="none" stroke="var(--d)"/><text x="535" y="150" text-anchor="middle">Audio</text>
+<rect x="470" y="169" width="130" height="32" rx="8" fill="none" stroke="var(--mute)"/><text x="535" y="190" text-anchor="middle">Code</text></g>
+<text x="660" y="110" text-anchor="middle" font-size="13">new each time</text>
+</svg>
+<figcaption>Figure 1. A prompt goes in and freshly generated content comes out.</figcaption>
+</figure>
+
+<h2 id="family">3. AI, ML, DL and GenAI: how they relate</h2>
+<p>The lecture treats <strong>machine learning and deep learning as "traditional AI"</strong>, and <strong>GenAI as modern AI</strong>. A helpful picture is a set of nested circles: AI is the broad field, ML sits inside it, deep learning sits inside ML (it uses many-layered neural networks), and generative AI is built mostly on deep learning.</p>
+<figure>
+<svg viewBox="0 0 720 340" role="img" aria-label="Nested circles: AI contains ML, which contains deep learning, which contains generative AI">
+<circle cx="250" cy="170" r="160" fill="var(--tint)" stroke="var(--a)" stroke-width="2.5"/>
+<circle cx="250" cy="205" r="115" fill="none" stroke="var(--c)" stroke-width="2.5"/>
+<circle cx="250" cy="235" r="78" fill="none" stroke="var(--b)" stroke-width="2.5"/>
+<circle cx="250" cy="257" r="44" fill="var(--b)" fill-opacity=".22" stroke="var(--d)" stroke-width="2.5"/>
+<text x="250" y="40" text-anchor="middle" font-size="15" font-weight="700">Artificial Intelligence</text>
+<text x="250" y="110" text-anchor="middle" font-size="15" font-weight="700">Machine Learning</text>
+<text x="250" y="175" text-anchor="middle" font-size="14" font-weight="700">Deep Learning</text>
+<text x="250" y="262" text-anchor="middle" font-size="13" font-weight="700">GenAI</text>
+<g font-size="13">
+<text x="450" y="70" font-weight="700">AI</text><text x="450" y="88">Machines doing tasks that need intelligence</text>
+<text x="450" y="130" font-weight="700">ML</text><text x="450" y="148">Learns patterns from past data to predict</text>
+<text x="450" y="190" font-weight="700">DL</text><text x="450" y="208">Multi-layer neural nets for complex patterns</text>
+<text x="450" y="250" font-weight="700">GenAI</text><text x="450" y="268">Creates new text, images, video, audio, code</text></g>
+<text x="450" y="310" font-size="12" fill="var(--mute)">ML + DL = "traditional AI"; GenAI = "modern AI"</text>
+</svg>
+<figcaption>Figure 2. Each layer is a specialised subset of the one around it.</figcaption>
+</figure>
+
+<h2 id="ml">4. Machine learning: the Netflix example</h2>
+<p>You watch thrillers, comedies and action films on Netflix. Over time, Netflix suggests new titles you tend to enjoy. That is machine learning at work.</p>
+<h3>How it works</h3>
+<ul>
+<li><strong>Collect data.</strong> Netflix records what you watch: title, description, release year, genre, and also <em>how long</em> you watched, which signals real interest.</li>
+<li><strong>Learn from behaviour.</strong> The system learns from your past actions and choices, and from those of similar viewers.</li>
+<li><strong>Predict.</strong> It predicts what you are likely to enjoy next and shows it to you.</li>
+</ul>
+<figure>
+<svg viewBox="0 0 720 150" role="img" aria-label="Netflix flow: watch history, ML model, recommendations">
+<g font-size="14" font-weight="600">
+<rect x="15" y="40" width="190" height="70" rx="10" fill="none" stroke="var(--a)" stroke-width="2"/><text x="110" y="70" text-anchor="middle">Your watch history</text><text x="110" y="92" text-anchor="middle" font-size="12" font-weight="400">genre, time watched, year</text>
+<rect x="265" y="40" width="190" height="70" rx="10" fill="var(--tint)" stroke="var(--c)" stroke-width="2"/><text x="360" y="70" text-anchor="middle">ML model</text><text x="360" y="92" text-anchor="middle" font-size="12" font-weight="400">learns your taste</text>
+<rect x="515" y="40" width="190" height="70" rx="10" fill="none" stroke="var(--b)" stroke-width="2"/><text x="610" y="70" text-anchor="middle">Predicted picks</text><text x="610" y="92" text-anchor="middle" font-size="12" font-weight="400">"You may like this"</text></g>
+<g fill="var(--mute)"><path d="M205 75h50" stroke="var(--mute)" stroke-width="2.5"/><path d="M265 75l-9-6v12z"/><path d="M455 75h50" stroke="var(--mute)" stroke-width="2.5"/><path d="M515 75l-9-6v12z"/></g>
+</svg>
+<figcaption>Figure 3. Machine learning predicts the future from past behaviour.</figcaption>
+</figure>
+<div class="box"><strong>Key point.</strong> ML <em>predicts or classifies</em> using patterns in existing data. It picks from things that already exist (an existing movie) rather than creating something new. Other typical uses: spam detection, price prediction, fraud detection.</div>
+
+<h2 id="dl">5. Deep learning: the face unlock example</h2>
+<p>When you set up face unlock, the phone captures your face from several angles. It is not memorising a single photo. It learns <strong>complex patterns</strong>: the shape of your eyes, the structure of your nose and the overall geometry of your face.</p>
+<p>That is why unlocking still works when you wear a cap or glasses, or when the lighting changes. The model learned deep, layered features, not a flat picture.</p>
+<figure>
+<svg viewBox="0 0 720 220" role="img" aria-label="Deep learning layers: image, edges, facial parts, face identity, unlock decision">
+<g font-size="13" font-weight="600">
+<rect x="10" y="80" width="105" height="60" rx="8" fill="none" stroke="var(--mute)" stroke-width="2"/><text x="62" y="108" text-anchor="middle">Face image</text><text x="62" y="126" text-anchor="middle" font-size="11" font-weight="400">raw pixels</text>
+<rect x="150" y="80" width="105" height="60" rx="8" fill="none" stroke="var(--a)" stroke-width="2"/><text x="202" y="108" text-anchor="middle">Layer 1</text><text x="202" y="126" text-anchor="middle" font-size="11" font-weight="400">edges, lines</text>
+<rect x="290" y="80" width="105" height="60" rx="8" fill="none" stroke="var(--c)" stroke-width="2"/><text x="342" y="108" text-anchor="middle">Layer 2</text><text x="342" y="126" text-anchor="middle" font-size="11" font-weight="400">eyes, nose shape</text>
+<rect x="430" y="80" width="105" height="60" rx="8" fill="none" stroke="var(--b)" stroke-width="2"/><text x="482" y="108" text-anchor="middle">Layer 3</text><text x="482" y="126" text-anchor="middle" font-size="11" font-weight="400">face geometry</text>
+<rect x="580" y="80" width="130" height="60" rx="8" fill="var(--tint)" stroke="var(--d)" stroke-width="2"/><text x="645" y="108" text-anchor="middle">Is it you?</text><text x="645" y="126" text-anchor="middle" font-size="11" font-weight="400">unlock / stay locked</text></g>
+<g stroke="var(--mute)" stroke-width="2.5" fill="var(--mute)"><path d="M115 110h27"/><path d="M150 110l-9-6v12z" stroke="none"/><path d="M255 110h27"/><path d="M290 110l-9-6v12z" stroke="none"/><path d="M395 110h27"/><path d="M430 110l-9-6v12z" stroke="none"/><path d="M535 110h37"/><path d="M580 110l-9-6v12z" stroke="none"/></g>
+<text x="360" y="45" text-anchor="middle" font-size="14" font-weight="700">Simple features become complex ones as data moves deeper</text>
+<text x="360" y="190" text-anchor="middle" font-size="12" fill="var(--mute)">Layer contents are illustrative; real networks have many more layers.</text>
+</svg>
+<figcaption>Figure 4. "Deep" refers to the many stacked layers that learn increasingly complex patterns.</figcaption>
+</figure>
+<div class="box"><strong>Key point.</strong> Deep learning is a branch of ML that uses multi-layer neural networks. It excels at unstructured data such as images, speech and text. It is also the foundation GenAI is built on.</div>
+
+<h2 id="trad">6. Traditional AI vs Generative AI</h2>
+<div class="scroll"><table>
+<tr><th>Aspect</th><th>Traditional AI (ML and DL)</th><th>Generative AI</th></tr>
+<tr><td>Main job</td><td>Predict, classify, recognise</td><td>Create new content</td></tr>
+<tr><td>Output</td><td>A label, score or recommendation from existing options</td><td>New text, image, video, audio or code</td></tr>
+<tr><td>Same input twice</td><td>Usually the same result</td><td>Often a different result each time</td></tr>
+<tr><td>Examples</td><td>Netflix recommendations, face unlock, spam filter</td><td>ChatGPT, Gemini, Claude, Veo, Nano Banana</td></tr>
+<tr><td>Interaction</td><td>Mostly hidden inside an app</td><td>Directly through prompts in natural language</td></tr>
+</table></div>
+<p>Traditional AI answers "which of these is it?" or "what will happen next?". Generative AI answers "make me something that fits this request."</p>
+
+<h2 id="models">7. GenAI model families: LLM, LIM, LVM, LAM</h2>
+<p>When you use ChatGPT, Gemini or Claude, the engine behind the scenes is a <strong>large model</strong> trained on a huge amount of data. The "L" stands for large, and the second letter says what kind of content it handles.</p>
+<figure>
+<svg viewBox="0 0 720 250" role="img" aria-label="Four GenAI model families and what they generate">
+<g font-size="13">
+<rect x="10" y="20" width="165" height="210" rx="12" fill="none" stroke="var(--a)" stroke-width="2.5"/>
+<text x="92" y="52" text-anchor="middle" font-size="20" font-weight="700">LLM</text><text x="92" y="74" text-anchor="middle" font-weight="600">Large Language Model</text>
+<text x="92" y="108" text-anchor="middle">Trained on huge</text><text x="92" y="126" text-anchor="middle">amounts of text</text><text x="92" y="156" text-anchor="middle">Generates: text, code</text>
+<text x="92" y="200" text-anchor="middle" font-weight="600">ChatGPT, Gemini, Claude</text>
+<rect x="190" y="20" width="165" height="210" rx="12" fill="none" stroke="var(--b)" stroke-width="2.5"/>
+<text x="272" y="52" text-anchor="middle" font-size="20" font-weight="700">LIM</text><text x="272" y="74" text-anchor="middle" font-weight="600">Large Image Model</text>
+<text x="272" y="108" text-anchor="middle">Turns a prompt</text><text x="272" y="126" text-anchor="middle">into a picture</text><text x="272" y="156" text-anchor="middle">Generates: images</text>
+<text x="272" y="200" text-anchor="middle" font-weight="600">Google Nano Banana</text>
+<rect x="370" y="20" width="165" height="210" rx="12" fill="none" stroke="var(--c)" stroke-width="2.5"/>
+<text x="452" y="52" text-anchor="middle" font-size="20" font-weight="700">LVM</text><text x="452" y="74" text-anchor="middle" font-weight="600">Large Vision Model</text>
+<text x="452" y="108" text-anchor="middle">Works with visual</text><text x="452" y="126" text-anchor="middle">content</text><text x="452" y="156" text-anchor="middle">Generates: images, video</text>
+<text x="452" y="200" text-anchor="middle" font-weight="600">Google Veo</text>
+<rect x="550" y="20" width="160" height="210" rx="12" fill="none" stroke="var(--d)" stroke-width="2.5"/>
+<text x="630" y="52" text-anchor="middle" font-size="20" font-weight="700">LAM</text><text x="630" y="74" text-anchor="middle" font-weight="600">Large Audio Model</text>
+<text x="630" y="108" text-anchor="middle">Works with sound</text><text x="630" y="126" text-anchor="middle">and speech</text><text x="630" y="156" text-anchor="middle">Generates: audio</text>
+<text x="630" y="200" text-anchor="middle" font-weight="600">e.g. ElevenLabs voices</text></g>
+</svg>
+<figcaption>Figure 5. One idea, four specialisations by type of content.</figcaption>
+</figure>
+<h3>Details</h3>
+<ul>
+<li><strong>LLM (Large Language Model).</strong> Trained on massive text data. It powers chatbots, summarisation, translation and code writing. The ChatGPT demo in the lecture shows this: ask "What is GenAI in short?", click regenerate, and you get a different answer to the same question.</li>
+<li><strong>LIM (Large Image Model).</strong> Generates images from a text prompt. Example from the lecture: Google Nano Banana.</li>
+<li><strong>LVM (Large Vision Model).</strong> Handles visual content and can produce images or videos from a prompt. Example: Google Veo.</li>
+<li><strong>LAM (Large Audio Model).</strong> The lecture leaves this as a question for viewers. The logical answer: it generates audio such as speech, voiceovers and music.</li>
+</ul>
+<div class="box">Note: terminology varies across the industry. "LLM" is universal. LIM, LVM and LAM are used in this course as a handy way to group models by content type, and many modern models are <em>multimodal</em>, meaning one model handles several types at once.</div>
+
+<h2 id="2026">8. Why learn GenAI in 2026?</h2>
+<ul>
+<li><strong>It is the most in-demand technology right now</strong>, and demand keeps rising.</li>
+<li><strong>Today it is a plus, tomorrow it is a must.</strong> At present GenAI is an "optional" skill: having it helps, lacking it is survivable. The lecture's view is that in the coming years it becomes a mandatory skill for IT jobs.</li>
+<li><strong>Hiring will filter on it.</strong> People who can build with GenAI will have the edge in getting jobs.</li>
+<li><strong>It multiplies your productivity.</strong> Developers integrating AI into products and workflows ship faster.</li>
+</ul>
+<figure>
+<svg viewBox="0 0 720 190" role="img" aria-label="Timeline showing GenAI skill moving from optional to mandatory">
+<path d="M40 100h640" stroke="var(--mute)" stroke-width="3"/><path d="M680 100l-10-7v14z" fill="var(--mute)"/>
+<circle cx="140" cy="100" r="9" fill="var(--a)"/><circle cx="360" cy="100" r="9" fill="var(--b)"/><circle cx="580" cy="100" r="9" fill="var(--d)"/>
+<g font-size="14" text-anchor="middle"><text x="140" y="75" font-weight="700">Today</text><text x="140" y="130">Optional skill</text><text x="140" y="150" font-size="12">A bonus on your CV</text>
+<text x="360" y="75" font-weight="700">Near future</text><text x="360" y="130">Expected skill</text><text x="360" y="150" font-size="12">Asked in interviews</text>
+<text x="580" y="75" font-weight="700">Coming years</text><text x="580" y="130">Must-have skill</text><text x="580" y="150" font-size="12">Gate for IT jobs</text></g>
+</svg>
+<figcaption>Figure 6. The lecturer's outlook on how GenAI skills will be valued. This is a forecast, not a guarantee.</figcaption>
+</figure>
+<h3>What the series promises</h3>
+<ul>
+<li>A full journey from basic to advanced GenAI using Python and LangChain.</li>
+<li>At least 10 hands-on projects.</li>
+<li>From the next lecture, the actual building starts.</li>
+</ul>
+
+<h2 id="recap">9. Quick revision and self-check</h2>
+<div class="box key"><strong>One-minute summary.</strong>
+<ul>
+<li>ML learns from past data to <em>predict</em> (Netflix).</li>
+<li>DL uses deep neural networks to learn <em>complex patterns</em> (face unlock).</li>
+<li>GenAI <em>creates new content</em> from prompts (ChatGPT, Veo).</li>
+<li>LLM = text, LIM = images, LVM = vision/video, LAM = audio.</li>
+<li>ML and DL are "traditional AI"; GenAI is "modern AI".</li>
+<li>GenAI is becoming a core career skill.</li>
+</ul></div>
+<h3>Test yourself</h3>
+<details><summary>1. Why is Netflix's recommendation system not generative AI?</summary><p>It predicts from existing titles based on your history. It does not create new content.</p></details>
+<details><summary>2. Why does face unlock still work with glasses on?</summary><p>Deep learning captured complex facial patterns (eye shape, nose structure, geometry), not just one flat image.</p></details>
+<details><summary>3. What does it mean that a GenAI answer is not "pre-decided"?</summary><p>The model generates a fresh response each time, so the same question can yield different wording.</p></details>
+<details><summary>4. Which model family would you use to generate a short video from a prompt?</summary><p>An LVM (large vision model), such as Google Veo.</p></details>
+<details><summary>5. What would a large audio model (LAM) generate?</summary><p>Audio: speech, voiceovers, music and similar sound content.</p></details>
+</main>
+</body>
+</html>
